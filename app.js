@@ -6,18 +6,20 @@ const mongoose = require("mongoose");
 
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
+const userRoutes = require("./api/routes/user");
 
 // DB connection
 mongoose.connect("mongodb+srv://fernandotessmann:"
     + process.env.MONGO_ATLAS_PASSWORD 
-    + "@restful-api-task.xgixq0b.mongodb.net/?retryWrites=true&w=majority&appName=RESTful-API-task",
-    {
-        useMongoClient: true
-    }
+    + "@restful-api-task.xgixq0b.mongodb.net/?retryWrites=true&w=majority&appName=RESTful-API-task"
+    
 );
 
 // handles request on prompt
 app.use(morgan("dev"));
+
+// handles images requests
+app.use("/uploads", express.static("uploads"));
 
 // urlencoded handler
 app.use(bodyParser.urlencoded({extended: false}));
@@ -45,6 +47,7 @@ app.use((req, res, next) => {
 // request routes - middleware
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
+app.use("/user", userRoutes);
 
 // handle if doesnt finds a route
 app.use((req, res, next) => {
@@ -53,7 +56,7 @@ app.use((req, res, next) => {
     next(error);
 });
 
-// handle database error
+// handles database error
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     res.json({
