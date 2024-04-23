@@ -1,13 +1,10 @@
-const express = require("express");
-const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const User = require("./models/user");
+const User = require("../routes/models/user");
 
-// create user route
-router.post("/signup", (req, res, next) => {
+exports.user_create = (req, res, next) => {
     User.findOne({email: req.body.email})
         .exec()
         .then(user => {
@@ -45,9 +42,9 @@ router.post("/signup", (req, res, next) => {
                 });
             }
         })       
-});
+};
 
-router.post("/login", (req, res, next) => {
+exports.user_login = (req, res, next) => {
     User.find({ email: req.body.email })
         .exec()
         .then(user => {
@@ -91,10 +88,9 @@ router.post("/login", (req, res, next) => {
                 error: err
             })
         })
-})
+};
 
-// delete user route
-router.delete("/:userId", (req, res, next) => {
+exports.user_delete = (req, res, next) => {
 
     const id = req.params.userId;
 
@@ -111,6 +107,4 @@ router.delete("/:userId", (req, res, next) => {
                 error: err
             })
         })
-});
-
-module.exports = router;
+};

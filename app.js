@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 const productRoutes = require("./api/routes/products");
 const orderRoutes = require("./api/routes/orders");
-const userRoutes = require("./api/routes/user");
+const userRoutes = require("./api/routes/users");
 
 // DB connection
 mongoose.connect("mongodb+srv://fernandotessmann:"
